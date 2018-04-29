@@ -1,0 +1,22 @@
+<% include partials/header.ejs %>
+<div class="container">
+<!--                <div class="row justify-content-center">-->
+<br>
+<br>
+<div id="newsContainer" class="row">
+<% posts.forEach(function(post){ %> 
+<div class="col-md-4">
+   <div class="card">
+      <div id="thumbnail-img1" class="img-responsive"><img class="card-img-top" src="<%= post.img %>"></div>
+      <div class="card-body bg_lightgrey">
+         <h6 class="card-title garchigmedee"><%= post.title%></h6>
+         <p class="secondarygrey"> 2018-04-16 </p>
+         <div class="card-text blogtext">
+            <%= post.desc %> 
+         </div>
+         <br><a href="JavaScript:Void(0);" class="readMore btn-text" postid="8993505740691317174">Цааш унших</a>
+      </div>
+   </div>
+</div>
+<% });%>             
+<% include partials/footer %>
