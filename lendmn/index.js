@@ -23,6 +23,7 @@ app.post("/addNews",function(req,res){
     res.redirect("/");
 });
 
-app.listen(process.env.PORT,function(){
+//process.env.PORT
+app.listen(3000,function(){
     console.log("Server aslaa");
 });
