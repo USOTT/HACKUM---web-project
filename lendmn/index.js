@@ -35,30 +35,26 @@ app.get("/addNews",function(req,res){
 
 app.post("/addNews",function(req,res){
     
-        // get data from form and add to campgrounds array
+
     var name = req.body.post_title;
     var image = req.body.post_img;
     var desc = req.body.post_desc;
     var newPost = {title: name, img: image, desc: desc};
-    // Create a new campground and save to DB
     Lendmn.create(newPost, function(err, newlyCreated){
         if(err){
             console.log(err);
         } else {
-            // Redirect back to campgrounds page
             res.redirect("/");
         }
     });
 });
 
-// SHOW: Show all information about a specific page
+
 app.get("/p/:id", function(req, res){
-    // Find the campground with the provided ID
     Lendmn.findById(req.params.id, function(err, foundPost){
         if(err){
             console.log(err);
         } else {
-            // Render show template with that campground
             res.render("show.ejs", {post: foundPost});
         }
     });
