@@ -24,6 +24,6 @@ app.post("/addNews",function(req,res){
 });
 
 //process.env.PORT
-app.listen(3000,function(){
+app.listen(process.env.PORT ||3000,function(){
     console.log("Server aslaa");
 });
