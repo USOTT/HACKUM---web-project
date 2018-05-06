@@ -51,6 +51,18 @@ app.post("/addNews",function(req,res){
     });
 });
 
+// SHOW: Show all information about a specific page
+app.get("/p/:id", function(req, res){
+    // Find the campground with the provided ID
+    Lendmn.findById(req.params.id, function(err, foundPost){
+        if(err){
+            console.log(err);
+        } else {
+            // Render show template with that campground
+            res.render("show.ejs", {post: foundPost});
+        }
+    });
+});
 //process.env.PORT
 app.listen(process.env.PORT ||3000,function(){
     console.log("Server aslaa");
