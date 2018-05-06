@@ -1,13 +1,32 @@
-var express = require("express");
-var app  = express();
-var bodyParser = require("body-parser");
+var express = require("express"),
+    app  = express(),
+    bodyParser = require("body-parser"),
+    mongoose = require("mongoose");
+
 app.use(bodyParser.urlencoded({extended:true}));
+mongoose.connect("mongodb://localhost/lendmn");
+
+var lendmnSchema = new mongoose.Schema({
+    title: String,
+    img: String,
+    desc: String
+});
+
+var Lendmn = mongoose.model("Lendmn", lendmnSchema);
 
 var news = [{title: "Title1", img: "https://1.bp.blogspot.com/-OxHVKRDIpk4/WtCHayG7kvI/AAAAAAAAAjU/BvGokemENN0Bj2Mg9TrPs-6geplYwFlBgCLcBGAs/s1600/29954982_10214866102341824_1502572961_o.jpg",desc:"Description"},
 {title: "Title2", img: "https://1.bp.blogspot.com/-OxHVKRDIpk4/WtCHayG7kvI/AAAAAAAAAjU/BvGokemENN0Bj2Mg9TrPs-6geplYwFlBgCLcBGAs/s1600/29954982_10214866102341824_1502572961_o.jpg",desc:"Description"}];
 
 app.get("/",function(req,res){
-    res.render("index.ejs",{posts:news});
+    
+    Lendmn.find({}, function(err, allPost){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("index.ejs", {posts: allPost});
+            
+        }
+    });
 });
 
 app.get("/addNews",function(req,res){
@@ -15,12 +34,21 @@ app.get("/addNews",function(req,res){
 });
 
 app.post("/addNews",function(req,res){
-    var garchig = req.body.post_title;
-    var zurag = req.body.post_img;
-    var desciption = req.body.post_desc;
-    var newPost= {title: garchig, img:zurag ,desc:desciption};
-    news.push(newPost);
-    res.redirect("/");
+    
+        // get data from form and add to campgrounds array
+    var name = req.body.post_title;
+    var image = req.body.post_img;
+    var desc = req.body.post_desc;
+    var newPost = {title: name, img: image, desc: desc};
+    // Create a new campground and save to DB
+    Lendmn.create(newPost, function(err, newlyCreated){
+        if(err){
+            console.log(err);
+        } else {
+            // Redirect back to campgrounds page
+            res.redirect("/");
+        }
+    });
 });
 
 //process.env.PORT
